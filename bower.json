@@ -1,0 +1,21 @@
+{
+  "name": "mapMarker",
+  "homepage": "https://github.com/aajahid/mapMarker",
+  "authors": [
+    "Abdullah Al Jahid <abdullah.al.jahid@gmail.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.3"
+  }
+}

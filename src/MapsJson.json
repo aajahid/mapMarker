@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Latitude": 23.874123,
+    "Longitude": 90.401357
+  },
+  {
+    "Id": 2,
+    "Latitude": 23.809569,
+    "Longitude": 90.397148
+  },
+  {
+    "Id": 3,
+    "Latitude": 23.798668,
+    "Longitude": 90.386928
+  },
+  {
+    "Id": 4,
+    "Latitude": 23.788668,
+    "Longitude": 90.386928
+  }
+]
