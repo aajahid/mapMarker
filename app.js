@@ -25,7 +25,7 @@ mapMarker = (function(){
         getMapsData(function(data){
             mapData = data;
             addAllMarker(mapData);
-            setTimeout(init_marker, 1000*5);
+            setTimeout(init_marker, 1000*60*5);
         });
 
     }
@@ -76,8 +76,6 @@ mapMarker = (function(){
             position: {lat: locationItem.Latitude, lng: locationItem.Longitude},
             map: map
         });
-
-        marker.prototype.infowindow = infowindow;
 
         marker.addListener('click', function() {
             // Close current open 
