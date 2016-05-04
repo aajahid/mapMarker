@@ -12,20 +12,25 @@ mapMarker = (function(){
     init = function() {
 
         init_map();
+        init_marker();
+        
+    }
+
+
+
+    init_marker = function() {
+
+        clearMarker();
+
         getMapsData(function(data){
             mapData = data;
             addAllMarker(mapData);
+            setTimeout(init_marker, 1000*5);
         });
 
-        setInterval(function(){
-            clearMarker();
-            getMapsData(function(data){
-                mapData = data;
-                addAllMarker(mapData);
-            });
-        }, 1000*60*5);
-        
     }
+
+
 
     /**
      * Initialize the map
@@ -37,6 +42,7 @@ mapMarker = (function(){
           mapTypeId: google.maps.MapTypeId.TERRAIN
       });
     }
+
 
 
     /**
@@ -58,6 +64,7 @@ mapMarker = (function(){
     }
 
 
+    
     addMarker = function(locationItem) {
 
         var infowindow = new google.maps.InfoWindow({
@@ -69,6 +76,8 @@ mapMarker = (function(){
             position: {lat: locationItem.Latitude, lng: locationItem.Longitude},
             map: map
         });
+
+        marker.prototype.infowindow = infowindow;
 
         marker.addListener('click', function() {
             // Close current open 
@@ -94,6 +103,9 @@ mapMarker = (function(){
 
     addAllMarker = function(locationData) {
         for (var i = 0; i < locationData.length; i++) {
+
+            latLng = new google.maps.LatLng(locationData[i].Latitude, locationData[i].Longitude);
+
             marker = addMarker(locationData[i])
             marker.setMap(map);
         }
