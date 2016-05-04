@@ -25,7 +25,7 @@ mapMarker = (function(){
         getMapsData(function(data){
             mapData = data;
             addAllMarker(mapData);
-            setTimeout(init_marker, 1000*5);
+            setTimeout(init_marker, 1000*60*5);
         });
 
     }
