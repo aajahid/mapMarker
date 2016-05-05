@@ -13,7 +13,7 @@ mapMarker = (function(){
 
         init_map();
         init_marker();
-        
+
     }
 
 
@@ -23,7 +23,7 @@ mapMarker = (function(){
         clearMarker();
 
         getMapsData(function(data){
-            mapData = data;
+            mapData = clusterData(data);
             addAllMarker(mapData);
             setTimeout(init_marker, 1000*60*5);
         });
@@ -68,7 +68,7 @@ mapMarker = (function(){
     addMarker = function(locationItem) {
 
         var infowindow = new google.maps.InfoWindow({
-            content: "ID = "+locationItem.Id+ "<br>" +
+            content: "ID = "+locationItem.EmployeeID.join()+ "<br>" +
                      "Lat = "+locationItem.Latitude+ "<br>" +
                      "Lng = "+locationItem.Longitude 
         });
@@ -76,6 +76,7 @@ mapMarker = (function(){
             position: {lat: locationItem.Latitude, lng: locationItem.Longitude},
             map: map
         });
+
 
         marker.addListener('click', function() {
             // Close current open 
@@ -91,6 +92,53 @@ mapMarker = (function(){
 
     }
 
+    /**
+     *  Cluster data by 100m distance
+     *  Produced data structure -
+     *
+     *  {
+     *      EmployeeId: [0, 2, 3],
+     *      Latitude: 23.234234
+     *      Longitude: 90.234234
+     *  }
+     *
+     */
+    clusterData = function(locationData){
+
+        groupData = [];
+
+        for( var i = 0; i < locationData.length; i++ ) {
+
+                locationItem = locationData[i];
+
+                groupData[i] = {
+                    Latitude: locationItem.Latitude,
+                    Longitude: locationItem.Longitude,
+                    EmployeeID: [locationItem.Id]
+                };
+
+                for( var x = 0; x < locationData.length; x++) {
+                    if( x == i ) {
+                        continue;
+                    }
+
+                    itemLatLng = new google.maps.LatLng(locationItem.Latitude, locationItem.Longitude);
+                    item2LatLng = new google.maps.LatLng(locationData[x].Latitude, locationData[x].Longitude);
+                    distance = google.maps.geometry.spherical.computeDistanceBetween(itemLatLng, item2LatLng);
+
+                    if( distance <= 100 ) {
+                        groupData[i].EmployeeID.push(locationData[x].Id);
+                        locationData.splice(x, 1);
+                    }
+                }
+        }
+
+
+        return groupData;
+
+    }
+
+
     clearMarker = function(){
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
@@ -101,9 +149,6 @@ mapMarker = (function(){
 
     addAllMarker = function(locationData) {
         for (var i = 0; i < locationData.length; i++) {
-
-            latLng = new google.maps.LatLng(locationData[i].Latitude, locationData[i].Longitude);
-
             marker = addMarker(locationData[i])
             marker.setMap(map);
         }
@@ -119,17 +164,3 @@ mapMarker = (function(){
 })();
 
 mapMarker.init(); 
-
-
-  //     // Loop through the results array and place a marker for each
-  //     // set of coordinates.
-  //     window.eqfeed_callback = function(results) {
-  //       for (var i = 0; i < results.features.length; i++) {
-  //         var coords = results.features[i].geometry.coordinates;
-  //         var latLng = new google.maps.LatLng(coords[1],coords[0]);
-  //         var marker = new google.maps.Marker({
-  //           position: latLng,
-  //           map: map
-  //       });
-  //     }
-  // }
