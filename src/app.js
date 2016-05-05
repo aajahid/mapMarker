@@ -24,7 +24,6 @@ mapMarker = (function(){
 
         getMapsData(function(data){
             mapData = clusterData(data);
-            console.log(mapData);
             addAllMarker(mapData);
             setTimeout(init_marker, 1000*60*5);
         });
@@ -78,9 +77,6 @@ mapMarker = (function(){
             map: map
         });
 
-        console.log(marker);
-
-        //marker.prototype.infowindow = infowindow;
 
         marker.addListener('click', function() {
             // Close current open 
@@ -113,8 +109,6 @@ mapMarker = (function(){
 
         for( var i = 0; i < locationData.length; i++ ) {
 
-            if( locationData[i]  ) {
-
                 locationItem = locationData[i];
 
                 groupData[i] = {
@@ -137,8 +131,8 @@ mapMarker = (function(){
                         locationData.splice(x, 1);
                     }
                 }
-            }
         }
+
 
         return groupData;
 
